@@ -1,9 +1,33 @@
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>Html5 local file api tut</title>
-  <head>
-  <meta charset="utf-8">
-  <input type="file" id="files" name="files[]" multiple />
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+<h2>Simple Collapsible</h2>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+</p>
+  
+  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
+
+  <div id="demo" class="collapse">
+    <script src="https://gist.github.com/KieranMcCormick/89dba1be2a8f5c2c6c1d.js"></script>
+  </div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+</p>
+
+<input type="file" id="files" name="files[]" multiple />
 <output id="list"></output>
 
 <script>
@@ -25,3 +49,10 @@
 
   document.getElementById('files').addEventListener('change', handleFileSelect, false);
 </script>
+
+</div>
+
+
+
+</body>
+</html>
