@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <link rel="icon" href="./images/icon.png">
     <title>Monitor Android HTTP traffic</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -121,7 +122,7 @@
 
     <div class="container">
         <div class="header">
-            <h1 style="font-family:cornerstone;" align="center">Monitoring Android HTTP traffic</h2>
+            <h1 style="font-family:cornerstone;" align="center">Monitoring Android HTTP(S) traffic</h2>
             <hr class="style-eight">
         </div>
 
@@ -147,7 +148,7 @@
             <p>If we now call</p>
             <pre><code>sudo cat /etc/pptpd.conf</code></pre>
             <p>The end of the configuration file should now look something like this:</p>
-            <pre><code># (Recommended)<br>#localip 192.168.0.1<br>#remoteip 192.168.0.234-238,192.168.0.245<br># or<br>#localip 192.168.0.234-238,92.168.0.245<br>#remoteip 192.168.1.234-238,192.168.1.245<br>localip192.168.0.1<br>remoteip 192.168.0.100-200</code></pre>
+            <pre><code># (Recommended)<br>#localip 192.168.0.1<br>#remoteip 192.168.0.234-238,192.168.0.245<br># or<br>#localip 192.168.0.234-238,92.168.0.245<br>#remoteip 192.168.1.234-238,192.168.1.245<br>localip 192.168.0.1<br>remoteip 192.168.0.100-200</code></pre>
             <p>This has set up the PPTP server to use IP 192.168.0.1 while distributing the IP range 192.168.0.100 to 192.168.0.200 to PPTP clients. Change these as you wish as long as they are private IP addresses and do not conflict with
             IP addresses already used by your server.</p>
             <p>Next, configure which DNS servers to use when clients connect to this PPTP server</p>
@@ -160,7 +161,7 @@
             <pre><code>sudo cat /etc/ppp/chap-secrets</code></pre>
             <p>The end of the file should now look something like this:</p>
             <pre><code># Secrets for authentication using CHAP<br># client	server	secret			IP addresses<br>username * password *</code></pre>
-            <p>The first column is username, the second is server name, the third is password, and the last is allowed IP addresses (we will put * to allow all).</p>
+            <p>The first column is username, the second is server name, the third is password, and the last is the allowed IP addresses (we will put * to allow all).</p>
             <br>
             <p><big><b>Setup IP Forwarding </b></big></p>
             <p>Open '/etc/sysctl.conf'</p>
@@ -183,8 +184,24 @@
         </div>
         <hr class="style-one">
         <p><big><b>Connect an Android device to this server</b></big></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magnaaliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <pre><code># sudo apt-get install pptpd</code></pre>
+        <p>We will need the following before we can connect our device to the server:</p>
+        <ol>
+            <li>Ensure that the server and the device are on the same network</li>
+            <li>The IP of the computer we wish to connect to</li>
+            <li>The username and password required to connect</li>
+        </ol>
+        <p>Call the following on your server to obtain its IP</p>
+        <pre><code>ifconfig</code></pre>
+        <p>The output should be similar to the following:</p>
+        <pre><code>eth0      Link encap:Ethernet  HWaddr 09:00:12:90:e3:e5  
+          inet addr:192.168.1.29 Bcast:192.168.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe70:e3f5/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:54071 errors:1 dropped:0 overruns:0 frame:0
+          TX packets:48515 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 ...</code></pre>
+        <p>From the output, our IP is 'inet addr:192.168.1.29'.</p>
+        
         <hr class="style-one">
         <p><big><b>Setup and forward VPN traffic to mitmproxy</b></big></p>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
