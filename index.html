@@ -3,7 +3,7 @@
 
 <head>
     <link rel="icon" href="./images/icon.png">
-    <title>Monitor Android HTTP traffic</title>
+    <title>Monitoring Android HTTP(S) traffic</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -91,15 +91,6 @@
             -moz-box-shadow: #bbb 0px 0px 5px;
             -webkit-box-shadow: #bbb 0px 0px 5px;
         }
-        /*.header {
-            background: url(./images/header.png) top left repeat-x;
-            height: 64px;
-            margin: 0px;
-            padding: 0px;
-            vertical-align: middle;
-            border-radius: 15px;
-            position: relative;
-        }*/
         
         @font-face {
             font-family: 'cornerstone';
@@ -129,7 +120,7 @@
         <p>This tutorial will cover how to:</p>
         <ol>
             <li>Configure a locally controlled VPN server (PPTP Server)</li>
-            <li>Connect an Android device to this server</li>
+            <li>Connect an Android device to a PPTP server</li>
             <li>Setup and forward VPN traffic to mitmproxy</li>
         </ol>
         
@@ -183,7 +174,7 @@
             <button id="pptpToggleBottom" onclick="changeToggleText(this)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Hide PPTP server instructions</button>
         </div>
         <hr class="style-one">
-        <p><big><b>Connect an Android device to this server</b></big></p>
+        <p><big><b>Connect an Android device to a PPTP server</b></big></p>
         <p>We will need the following before we can connect our device to the server:</p>
         <ol>
             <li>Ensure that the server and the device are on the same network</li>
@@ -213,6 +204,7 @@
 </body>
 
 <script>
+    
     function changeToggleText(id) { 
         if(id.innerHTML == "Show PPTP server instructions"){
             pptpToggleTop.innerHTML="Hide PPTP server instructions";
