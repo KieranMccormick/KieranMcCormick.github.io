@@ -2,13 +2,14 @@
 <html>
 
 <head>
+    <title>Monitor Android HTTP traffic</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <style>
-        <style> code,
+        code,
         samp,
         kbd {
             font-family: "Courier New", Courier, monospace, sans-serif;
@@ -20,6 +21,7 @@
             line-height: 1.6em;
             font-size: 11px;
         }
+        /*border-left: 11px solid #ccc;*/
         
         pre {
             font-family: UbuntuMono, courier, monospace;
@@ -27,8 +29,6 @@
             background-color: #F3F3F3;
             padding: 0.1em 0.5em 0.3em 0.7em;
             border: 1px dashed #C1B496;
-            border-left: 11px solid #ccc;
-            margin: 1.7em 0 1.7em 0.3em;
             overflow: auto;
             width: 93%;
             white-space: pre-wrap;
@@ -48,6 +48,30 @@
             overflow: visible;
             overflow-x: auto;
         }
+        
+        hr.style-one {
+            border: 0;
+            border-bottom: 1px dashed #ccc;
+            background: #999;
+        }
+        
+        hr.style-eight {
+            padding: 0;
+            border: none;
+            border-top: medium double #333;
+            color: #333;
+            text-align: center;
+        }
+        
+        hr.style-eight:after {
+            content: "Kieran ~ $";
+            display: inline-block;
+            position: relative;
+            top: -0.7em;
+            font-size: 1.5em;
+            padding: 0 0.25em;
+            background: white;
+        }
     </style>
 
 </head>
@@ -56,48 +80,55 @@
 
     <div class="container">
 
-        <h2>Simple Collapsible</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-        <ol>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-        </ol>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
+        <h2 align="center">Monitoring Android HTTP traffic</h2>
+        <hr class="style-eight">
+        <br>
 
+        <p>This tutorial will cover how to:</p>
+        <ol>
+            <li>Configure a locally controlled VPN server (PPTP Server)</li>
+            <li>Connect an Android device to this server</li>
+            <li>Setup and forward VPN traffic to mitmproxy</li>
+        </ol>
+
+        <hr class="style-one">
+
+        <p><big><b>Setup PPTP Server</b></big></p>
+        <p>The setup of the PPTP serer is covered <a href="http://www.yahoo.com">here</a> in the Ubuntu community.
+
+
+        </p>
+
+        <button onclick="changeText(this)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Show PPTP server instructions</button>
+        <script>
+            function changeText(id) { 
+                if(id.innerHTML == "Show PPTP server instructions"){
+                    id.innerHTML ="Hide PPTP server instructions";
+                }else{
+                    id.innerHTML ="Show PPTP server instructions";
+                }
+            }
+        </script>
         <div id="demo" class="collapse">
+
+            <br>
             <script src="https://gist.github.com/KieranMcCormick/89dba1be2a8f5c2c6c1d.js"></script>
         </div>
+        <hr class="style-one">
+        <p><big><b>Connect an Android device to this server</b></big></p>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
             aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
 
-        <input type="file" id="files" name="files[]" multiple />
-        <output id="list"></output>
-
-        <script>
-            function handleFileSelect(evt) {
-    var files = evt.target.files; // FileList object
-
-    
-
-    // files is a FileList of File objects. List some properties.
-    var output = [];
-    for (var i = 0, f; f = files[i]; i++) {
-      output.push('<li><strong>', escape(f.name), '</strong> (', f.type || 'n/a', ') - ',
-                  f.size, ' bytes, last modified: ',
-                  f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
-                  '</li>');
-    }
-    document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-  }
-
-  document.getElementById('files').addEventListener('change', handleFileSelect, false);
-        </script>
         <pre><code># sudo apt-get install pptpd</code></pre>
 
+        <hr class="style-one">
+        <p><big><b>Setup and forward VPN traffic to mitmproxy</b></big></p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+
+        <pre><code># sudo apt-get install pptpd</code></pre>
     </div>
 
 
