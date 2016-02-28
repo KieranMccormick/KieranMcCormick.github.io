@@ -25,6 +25,10 @@
         }
         /*border-left: 11px solid #ccc;*/
         
+        p {
+            width: 93%;
+        }
+        
         pre {
             font-family: UbuntuMono, courier, monospace;
             padding: 4pt;
@@ -86,6 +90,24 @@
             -moz-box-shadow: #bbb 0px 0px 5px;
             -webkit-box-shadow: #bbb 0px 0px 5px;
         }
+        /*.header {
+            background: url(./images/header.png) top left repeat-x;
+            height: 64px;
+            margin: 0px;
+            padding: 0px;
+            vertical-align: middle;
+            border-radius: 15px;
+            position: relative;
+        }*/
+        
+        @font-face {
+            font-family: 'cornerstone';
+            src: url('./fonts/c.ttf');
+        }
+        
+        h1 {
+            font-size: 3em;
+        }
         
         body {
             background-image: url("./images/stardust/stardust/stardust.png");
@@ -98,10 +120,10 @@
 <body>
 
     <div class="container">
-
-        <h2 align="center">Monitoring Android HTTP traffic</h2>
+        <div class="header">
+            <h1 style="font-family:cornerstone;" align="center">Monitoring Android HTTP traffic</h2>
         <hr class="style-eight">
-        <br>
+        </div>
 
         <p>This tutorial will cover how to:</p>
         <ol>
@@ -113,25 +135,57 @@
         <hr class="style-one">
 
         <p><big><b>Setup PPTP Server</b></big></p>
-        <p>The setup of the PPTP serer is covered <a href="http://www.yahoo.com">here</a> in the Ubuntu community.
+        <p>The setup of the PPTP server is covered <a href="https://help.ubuntu.com/community/PPTPServer" target="_blank">here</a>            in the Ubuntu community. I have, however, included these instructions below with some additional notes that helped me.</p>
 
-
-        </p>
-
-        <button onclick="changeText(this)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Show PPTP server instructions</button>
-        <script>
-            function changeText(id) { 
-                if(id.innerHTML == "Show PPTP server instructions"){
-                    id.innerHTML ="Hide PPTP server instructions";
-                }else{
-                    id.innerHTML ="Show PPTP server instructions";
-                }
-            }
-        </script>
+        <button id="pptpToggle1" onclick="changeToggleText(this)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Show PPTP server instructions</button>
         <div id="demo" class="collapse">
 
             <br>
-            <script src="https://gist.github.com/KieranMcCormick/89dba1be2a8f5c2c6c1d.js"></script>
+            <p><big><b>Setup PPTP Server</b></big></p>
+
+            <p>First we need to install pptp server using apt-get</p>
+            <pre><code>sudo apt-get install pptpd</code></pre>
+            <p>Then we need to configure the pptpd.</p>
+            <pre><code>sudo nano /etc/pptpd.conf</code></pre>
+            <p>Add server IP and client IP at the end of the file. You can add like below:</p>
+            <pre><code>localip 192.168.0.1<br>remoteip 192.168.0.100-200</code></pre>
+                
+                <p>This sets up the PPTP server to use IP 192.168.0.1 while distributing the IP range 192.168.0.100 to 192.168.0.200
+                to PPTP clients. Change these as you wish as long as they are private IP addresses and do not conflict with
+                IP addresses already used by your server.</p>
+                <p>Configure DNS servers to use when clients connect to this PPTP
+                server</p>
+            <pre><code>sudo nano /etc/ppp/pptpd-options</code></pre>
+            <p>Uncomment the ms-dns and add google like below or OpenDNS</p>
+            <pre><code>ms-dns 8.8.8.8<br>ms-dns 8.8.4.4</code></pre>
+                </pre>
+                <p>Now add a VPN user in /etc/ppp/chap-secrets file.</p>
+                <pre><code>sudo nano /etc/ppp/chap-secrets</code></pre> 
+                <p>The column is username. Second column is server
+                name, you can put “pptpd” in there. Third column is password. The last column is the IP addresses, you can
+                put * to allow all IP.</p>
+                <pre><code>client    server    secret    IP addresses
+username * myPassword *</code></pre> 
+<p>Finally start your server</p>
+                <pre><code>/etc/init.d/pptpd restart</code></pre> 
+                <p><big><b>Setup IP Forwarding </b></big></p>
+                <p>To enable IPv4 forward, add the below forward rule to '/etc/sysctl.conf'</p>
+                <pre><code>sudo nano /etc/sysctl.conf</code></pre> 
+                <p>Uncomment the line</p>
+                <pre><code>net.ipv4.ip_forward=1</code></pre> 
+                <p>Then reload the configuration</p>
+                <pre><code>sudo sysctl -p</code></pre> 
+                <p>Add forward rule in iptables</p>
+                <pre><code>sudo nano /etc/rc.local</code></pre> 
+                <p>Adding to the bottom just before the exit 0</p>
+                <pre><code>iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
+iptables -A FORWARD -p tcp --syn -s 192.168.0.0/24 -j TCPMSS --set-mss 1356</code></pre> 
+
+<p>This example is using 192.168.0 for its PPTP subnet. The second rule adjusts the MTU size. You are done, Just reboot your
+                server and you should be able to connect to using PPTPD and send all your traffic through this server.</p>
+
+    <button id="pptpToggle2" onclick="changeToggleText(this)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Hide PPTP server instructions</button>
+
         </div>
         <hr class="style-one">
         <p><big><b>Connect an Android device to this server</b></big></p>
@@ -149,61 +203,6 @@
 
         <pre><code># sudo apt-get install pptpd</code></pre>
 
-        <hr class="style-one">
-        <p><big><b>Setup and forward VPN traffic to mitmproxy</b></big></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-
-        <pre><code># sudo apt-get install pptpd</code></pre>
-
-        <hr class="style-one">
-        <p><big><b>Setup and forward VPN traffic to mitmproxy</b></big></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-
-        <pre><code># sudo apt-get install pptpd</code></pre>
-
-        <hr class="style-one">
-        <p><big><b>Setup and forward VPN traffic to mitmproxy</b></big></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-
-        <pre><code># sudo apt-get install pptpd</code></pre>
-
-        <hr class="style-one">
-        <p><big><b>Setup and forward VPN traffic to mitmproxy</b></big></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-
-        <pre><code># sudo apt-get install pptpd</code></pre>
-
-        <hr class="style-one">
-        <p><big><b>Setup and forward VPN traffic to mitmproxy</b></big></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-
-        <pre><code># sudo apt-get install pptpd</code></pre>
-
-        <hr class="style-one">
-        <p><big><b>Setup and forward VPN traffic to mitmproxy</b></big></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-
-        <pre><code># sudo apt-get install pptpd</code></pre>
-
-        <hr class="style-one">
-        <p><big><b>Setup and forward VPN traffic to mitmproxy</b></big></p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
-
-        <pre><code># sudo apt-get install pptpd</code></pre>
 
 
     </div>
@@ -211,5 +210,16 @@
 
 
 </body>
+<script>
+            function changeToggleText(id) { 
+                if(id.innerHTML == "Show PPTP server instructions"){
+                    pptpToggle1.innerHTML ="Hide PPTP server instructions";
+                    pptpToggle1.innerHTML ="Hide PPTP server instructions";
+                }else{
+                    pptpToggle1.innerHTML ="Show PPTP server instructions";
+                    pptpToggle1.innerHTML ="Show PPTP server instructions";
+                }
+            }
+        </script>
 
 </html>
