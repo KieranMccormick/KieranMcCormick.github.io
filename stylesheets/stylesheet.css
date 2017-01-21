@@ -1,0 +1,101 @@
+/*<style>*/
+
+body {
+    background-image: url("./images/stardust/stardust/stardust.png");
+    background-attachment: fixed;
+}
+
+code,
+samp,
+kbd {
+    font-family: "Courier New", Courier, monospace, sans-serif;
+    text-align: left;
+    color: #555;
+}
+
+pre code {
+    line-height: 1.6em;
+    font-size: 11px;
+}
+/*border-left: 11px solid #ccc;*/
+
+p {
+    width: 93%;
+}
+
+pre {
+    font-family: UbuntuMono, courier, monospace;
+    padding: 4pt;
+    background-color: #F3F3F3;
+    padding: 0.1em 0.5em 0.3em 0.7em;
+    border: 1px dashed #C1B496;
+    overflow: auto;
+    width: 93%;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+/* target IE7 and IE6 */
+
+*:first-child+html pre {
+    padding-bottom: 2em;
+    overflow-y: hidden;
+    overflow: visible;
+    overflow-x: auto;
+}
+
+* html pre {
+    padding-bottom: 2em;
+    overflow: visible;
+    overflow-x: auto;
+}
+
+hr.style-one {
+    border: 0;
+    border-bottom: 1px dashed #ccc;
+    background: #999;
+}
+
+hr.style-eight {
+    padding: 0;
+    border: none;
+    border-top: medium double #333;
+    color: #333;
+    text-align: center;
+}
+
+hr.style-eight:after {
+    content: "§";
+    display: inline-block;
+    position: relative;
+    top: -0.7em;
+    font-size: 1.5em;
+    padding: 0 0.25em;
+    background: white;
+}
+
+.container {
+    background-color: #fff;
+}
+
+.container-inner {
+    -moz-border-radius: 0px 0px 5px 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-box-shadow: #bbb 0px 0px 5px;
+    -webkit-box-shadow: #bbb 0px 0px 5px;
+}
+
+@font-face {
+    font-family: 'cornerstone';
+    src: url('./fonts/cornerstone.ttf');
+}
+
+h1 {
+    font-size: 3em;
+}
+
+/*body {
+    background-image: url("./images/stardust/stardust/stardust.png");
+    background-attachment: fixed;
+}*/
+/*</style>*/
