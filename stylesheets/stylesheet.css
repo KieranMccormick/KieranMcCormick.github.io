@@ -8,9 +8,43 @@
     color: #FFFFFF;
 }
 
+.social-buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
 body {
     background-image: url("./images/stardust/stardust/stardust.png");
     background-attachment: fixed;
+}
+
+.btn {
+    min-width: 90px;
+    margin: 5px;
+}
+
+.btn:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.button:after {
+    content: "";
+    background: #90EE90;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px!important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 1s
+}
+
+.button:active:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
 }
 
 code, samp, kbd {
@@ -173,6 +207,13 @@ hr.style-eight:after {
 }
 
 @media only screen and (max-width: 1200px) {
+    .btn {
+        min-width: 120px;
+        min-height: 40px;
+    }
+    .social-buttons {
+        grid-template-columns: auto auto auto auto;
+    }
     .leftcolumn, .rightcolumn {
         width: 100%;
         padding: 0;
@@ -195,6 +236,9 @@ hr.style-eight:after {
 }
 
 @media only screen and (max-width: 780px) {
+    .social-buttons {
+        grid-template-columns: auto auto;
+    }
     .wrapper {
         grid-template-columns: auto;
     }
