@@ -2,149 +2,87 @@
 <html>
 
 <head>
-
+    <link rel="icon" href="./images/icon.png">
+    <title>Monitoring Android HTTP(S) traffic</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        /* Add a gray background color with some padding */
-
-        body {
-            /* font-family: Arial; */
-            padding: 20px;
-            background-image: url("./stylesheets/images/stardust/stardust/stardust.png");
-            background-attachment: fixed;
-        }
-
-        /* Header/Blog Title */
-
-        .header {
-            font-weight: 100;
-        }
-
-        /* Create two unequal columns that floats next to each other */
-
-        /* Left column */
-
-        .leftcolumn {
-            float: left;
-            width: 75%;
-        }
-
-        /* Right column */
-
-        .rightcolumn {
-            float: left;
-            width: 25%;
-            /* padding-left: 20px; */
-        }
-
-        /* Fake image */
-
-        .fakeimg {
-            /* background-color: #aaa; */
-            border: 2px dashed #aaa;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Add a card effect for articles */
-
-        .card {
-            /* background-color: #ddd; */
-            border: 2px dashed #ddd;
-
-            border-radius: 10px;
-            padding: 20px;
-            margin: 10px;
-        }
-
-        /* Clear floats after the columns */
-
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        /* Footer */
-
-        .footer {
-            padding: 20px;
-            text-align: center;
-            background: #ddd;
-            margin-top: 20px;
-        }
-
-        /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
-
-        @media screen and (max-width: 1200px) {
-            .leftcolumn,
-            .rightcolumn {
-                width: 100%;
-                padding: 0;
-            }
-        }
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
 </head>
 
 <body>
-
-
-
+    <!--     <div class="header">
+        <h1 style="font-family:cornerstone;" align="center">Kieran McCormick</h1>
+    </div> -->
     <div class="container">
-
         <div class="header">
             <h1 style="font-family:cornerstone;" align="center">Kieran McCormick</h1>
             <hr class="style-eight">
         </div>
+        <div class="wrapper">
+            <a style="text-decoration:none" href="http://example.com">
 
-
-        <div class="row">
-            <div class="leftcolumn">
-                <div class="card">
-                    <h2>TITLE HEADING</h2>
-                    <h5>Title description, Dec 7, 2017</h5>
-                    <div class="fakeimg" style="height:200px;">Image</div>
-                    <p>Some text..</p>
-                    <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco.
-                    </p>
+                <div class="box">
+                    <h2>WiFind</h2>
+                    <h5>nwHacks, Dec 7, 2017</h5>
+                    <div class="img-wrapper">
+                        <img class="myimg" src="assets/icons/wifind.png">
+                        <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <h2>TITLE HEADING</h2>
-                    <h5>Title description, Sep 2, 2017</h5>
-                    <div class="fakeimg" style="height:200px;">Image</div>
-                    <p>Some text..</p>
-                    <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco.
-                    </p>
-                </div>
-            </div>
-            <div class="rightcolumn">
-                <div class="card">
-                    <h2>About Me</h2>
-                    <img class="fakeimg" src="./stylesheets/images/face.jpg">
-
-
+            </a>
+            <div class="box">
+                <h2>Beagle-Boop</h2>
+                <h5>CMPT 433, Dec 7, 2017</h5>
+                <div class="img-wrapper">
+                    <img class="test" src="assets/icons/beaglebone.png">
                     <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
                 </div>
-                <div class="card">
-                    <h3>Follow Me</h3>
-                    <p>Some text..</p>
+            </div>
+            <div class="box">
+                <h2>LifeBand</h2>
+                <h5>nwHacks, Dec 7, 2017</h5>
+                <div class="img-wrapper">
+                    <img class="myimg" src="assets/icons/lifeband.png">
+                    <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+                </div>
+            </div>
+            <div class="box">
+                <h2>Medical Dispenser</h2>
+                <h5>Lumohacks, Dec 7, 2017</h5>
+                <div class="img-wrapper">
+                    <img class="myimg" src="assets/firebaseicon.png">
+                    <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+                </div>
+            </div>
+            <div class="box">
+                <h2>HTTP(S) monitoring</h2>
+                <h5>Research, Dec 7, 2017</h5>
+                <div class="img-wrapper">
+                    <img class="myimg" src="assets/icons/android.png">
+                    <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
                 </div>
             </div>
         </div>
 
+        <div class="rightcolumn">
+            <div class="card">
+                <h2>About Me</h2>
+                <img class="fakeimg" style="border-radius: 30px" src="./stylesheets/images/face.jpg">
+                <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+            </div>
+            <div class="card">
+                <h3>Follow Me</h3>
+                <p>Some text..</p>
+            </div>
+        </div>
     </div>
+
+    </div>
+
 </body>
 
 </html>
