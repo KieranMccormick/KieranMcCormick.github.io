@@ -127,7 +127,6 @@ hr.style-eight:after {
     margin: 0 auto;
     justify-content: center;
     display: grid;
-    /* grid-auto-columns: auto; */
     grid-template-columns: auto auto;
     grid-gap: 20px;
     background-color: #fff;
@@ -140,7 +139,6 @@ hr.style-eight:after {
     display: grid;
     grid-template-columns: 33% 66%;
     grid-gap: 20px;
-    height: ;
 }
 
 .fakeimg {
