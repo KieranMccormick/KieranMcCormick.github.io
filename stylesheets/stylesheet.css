@@ -1,13 +1,9 @@
-/*<style>*/
-
 body {
     background-image: url("./images/stardust/stardust/stardust.png");
     background-attachment: fixed;
 }
 
-code,
-samp,
-kbd {
+code, samp, kbd {
     font-family: "Courier New", Courier, monospace, sans-serif;
     text-align: left;
     color: #555;
@@ -17,6 +13,7 @@ pre code {
     line-height: 1.6em;
     font-size: 11px;
 }
+
 /*border-left: 11px solid #ccc;*/
 
 p {
@@ -34,6 +31,7 @@ pre {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
+
 /* target IE7 and IE6 */
 
 *:first-child+html pre {
@@ -64,7 +62,6 @@ hr.style-eight {
 }
 
 hr.style-eight:after {
-    content: "§";
     display: inline-block;
     position: relative;
     top: -0.7em;
@@ -75,6 +72,11 @@ hr.style-eight:after {
 
 .container {
     background-color: #fff;
+    opacity: 0.95;
+}
+
+.btn {
+    border-radius: 30px;
 }
 
 .container-inner {
@@ -90,12 +92,83 @@ hr.style-eight:after {
     src: url('./fonts/cornerstone.ttf');
 }
 
-h1 {
-    font-size: 3em;
+.wrapper {
+    justify-content: center;
+    display: grid;
+    /* grid-auto-columns: auto; */
+    grid-template-columns: auto auto auto;
+    grid-gap: 20px;
+    background-color: #fff;
+    color: #444;
 }
 
-/*body {
-    background-image: url("./images/stardust/stardust/stardust.png");
-    background-attachment: fixed;
-}*/
-/*</style>*/
+.img-wrapper {
+    justify-content: center;
+    align-content: center;
+    display: grid;
+    grid-template-columns: 33% 66%;
+    grid-gap: 20px;
+}
+
+.box {
+    background-color: #444;
+    color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 150%;
+    width: 340px;
+    height: 250px;
+}
+
+.myimg {
+    align-self: center;
+    justify-self: center;
+    width: 100%;
+}
+
+.test {
+    align-self: center;
+    justify-self: center;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.card {
+    /* background-color: #ddd; */
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    background-color: whitesmoke;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1100px;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .wrapper {
+        grid-template-columns: auto auto;
+    }
+    .container {
+        width: 750px;
+    }
+}
+
+@media only screen and (max-width: 780px) {
+    .wrapper {
+        grid-template-columns: auto;
+    }
+    .container {
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .container {
+        width: 100%;
+    }
+}

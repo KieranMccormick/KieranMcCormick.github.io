@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" href="./images/icon.png">
+    <title>Monitoring Android HTTP(S) traffic</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1 style="font-family:cornerstone;" align="center">Monitoring Android HTTP(S) traffic</h2>
+                <hr class="style-eight">
+        </div>
+
+        <p>This tutorial will cover how to:</p>
+        <ol>
+            <li>Configure a locally controlled VPN server (PPTP Server)</li>
+            <li>Connect an Android device to a PPTP server</li>
+            <li>Setup and forward VPN traffic to mitmproxy</li>
+        </ol>
+
+        <hr class="style-one">
+        <p>
+            <big>
+                <b>Configure a locally controlled VPN server (PPTP Server)</b>
+            </big>
+        </p>
+        <p>The setup of the PPTP server is covered
+            <a href="https://help.ubuntu.com/community/PPTPServer" target="_blank">here</a> in the Ubuntu community. I have, however, included these instructions below with some additional notes
+            that helped me.</p>
+        <button id="pptpToggleTop" onclick="changeToggleText(this)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Show PPTP server instructions</button>
+        <div id="demo" class="collapse">
+            <br>
+            <p>
+                <big>
+                    <b>Setup a PPTP Server</b>
+                </big>
+            </p>
+            <p>
+                <b>Before we start</b>, if you are using a VM, please ensure that you have bridged connection enabled.</p>
+            <p>If you havent already, install PPTP server</p>
+            <pre><code>sudo apt-get install pptpd</code></pre>
+            <p>First, add a server IP and client IP to the end of the PPTP server configuration file</p>
+            <pre><code>sudo sed -i '$ a\localip 192.168.0.1' /etc/pptpd.conf<br>sudo sed -i '$ a\remoteip 192.168.0.100-200' /etc/pptpd.conf</code></pre>
+            <p>If we now call</p>
+            <pre><code>sudo cat /etc/pptpd.conf</code></pre>
+            <p>The end of the configuration file should now look something like this:</p>
+            <pre><code># (Recommended)<br>#localip 192.168.0.1<br>#remoteip 192.168.0.234-238,192.168.0.245<br># or<br>#localip 192.168.0.234-238,92.168.0.245<br>#remoteip 192.168.1.234-238,192.168.1.245<br>localip 192.168.0.1<br>remoteip 192.168.0.100-200</code></pre>
+            <p>This has set up the PPTP server to use IP 192.168.0.1 while distributing the IP range 192.168.0.100 to 192.168.0.200
+                to PPTP clients. Change these as you wish as long as they are private IP addresses and do not conflict with
+                IP addresses already used by your server.</p>
+            <p>Next, configure which DNS servers to use when clients connect to this PPTP server</p>
+            <pre><code>sudo nano /etc/ppp/pptpd-options</code></pre>
+            <p>Add google (below) or OpenDNS</p>
+            <pre><code>ms-dns 8.8.8.8<br>ms-dns 8.8.4.4</code></pre>
+            <p>Now add a VPN user into /etc/ppp/chap-secrets.</p>
+            <pre><code>sudo sed -i '$ a\username pptpd password *' /etc/ppp/chap-secrets</code></pre>
+            <p>If we now call</p>
+            <pre><code>sudo cat /etc/ppp/chap-secrets</code></pre>
+            <p>The end of the file should now look something like this:</p>
+            <pre><code># Secrets for authentication using CHAP<br># client	server	secret			IP addresses<br>username * password *</code></pre>
+            <p>The first column is username, the second is server name, the third is password, and the last is the allowed IP
+                addresses (we will put * to allow all).</p>
+            <br>
+            <p>
+                <big>
+                    <b>Setup IP Forwarding </b>
+                </big>
+            </p>
+            <p>Open '/etc/sysctl.conf'</p>
+            <pre><code>sudo nano /etc/sysctl.conf</code></pre>
+            <p>Enable IPv4 forwarding by uncomment the line</p>
+            <pre><code>net.ipv4.ip_forward=1</code></pre>
+            <p>Reload the configuration</p>
+            <pre><code>sudo sysctl -p</code></pre>
+            <p>Open your iptables configuration '/etc/rc.local'</p>
+            <pre><code>sudo nano /etc/rc.local</code></pre>
+            <p>Add the following two rules just before the 'exit 0' at the bottom of the file.</p>
+            <pre><code>iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE<br>iptables -A FORWARD -p tcp --syn -s 192.168.0.0/24 -j TCPMSS --set-mss 1356</code></pre>
+            <p>The first rule sets 192.168.0 for the PPTP subnet, the second rule adjusts the MTU size.</p>
+            <p>The server setup is now complete, call the following to start the server</p>
+            <pre><code>service pptpd restart</code></pre>
+            <p>or</p>
+            <pre><code>/etc/init.d/pptpd restart</code></pre>
+            <br>
+            <button id="pptpToggleBottom" onclick="changeToggleText(this)" type="button" class="btn btn-info" data-toggle="collapse"
+                data-target="#demo">Hide PPTP server instructions</button>
+        </div>
+        <hr class="style-one">
+        <p>
+            <big>
+                <b>Connect an Android device to a PPTP server</b>
+            </big>
+        </p>
+        <p>We will need the following before we can connect our device to the server:</p>
+        <ol>
+            <li>Ensure that the server and the device are on the same network</li>
+            <li>The IP of the computer we wish to connect to</li>
+            <li>The username and password required to connect</li>
+        </ol>
+        <p>Call the following on your server to obtain its IP</p>
+        <pre><code>ifconfig</code></pre>
+        <p>The output should be similar to the following:</p>
+        <pre><code>eth0      Link encap:Ethernet  HWaddr 09:00:12:90:e3:e5
+          inet addr:192.168.1.29 Bcast:192.168.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe70:e3f5/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:54071 errors:1 dropped:0 overruns:0 frame:0
+          TX packets:48515 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 ...</code></pre>
+        <p>From the output, our IP is 'inet addr:192.168.1.29'.</p>
+
+        <hr class="style-one">
+        <p>
+            <big>
+                <b>Setup and forward VPN traffic to mitmproxy</b>
+            </big>
+        </p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <pre><code># sudo apt-get install pptpd</code></pre>
+        <hr class="style-one">
+        <p>Click
+            <a href="https://github.com/KieranMcCormick/KieranMcCormick.github.io" target="_blank">here</a> to view this pages source.</p>
+    </div>
+
+</body>
+
+<script>
+
+    function changeToggleText(id) {
+        if (id.innerHTML == "Show PPTP server instructions") {
+            pptpToggleTop.innerHTML = "Hide PPTP server instructions";
+            pptpToggleBottom.innerHTML = "Hide PPTP server instructions";
+        } else {
+            pptpToggleTop.innerHTML = "Show PPTP server instructions";
+            pptpToggleBottom.innerHTML = "Show PPTP server instructions";
+        }
+    }
+</script>
+
+</html>
