@@ -2,24 +2,38 @@
 <html>
 
 <head>
-    <link rel="icon" href="./images/icon.png">
-    <title>Monitoring Android HTTP(S) traffic</title>
+    <link rel="icon" href="../assets/icons/male-technologist.png">
+    <title>Kieran McCormick</title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="../js/materialize.min.js" type="text/javascript"></script>
+
+
+
 
 </head>
 
 <body>
-
+    <div class="fixed-action-btn horizontal click-to-toggle hvr-shrink" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red" href="../index.html">
+            <i class="large material-icons">first_page</i>
+        </a>
+    </div>
     <div class="container">
         <div class="content" style="width: 800px; margin: 0 auto;">
-            <h1 id="firebase-via-curl-and-json-c">Firebase via CURL and JSON-C</h1>
-            <hr>
+            <h1 style="font-family:cornerstone;" align="center" id="firebase-via-curl-and-json-c">Firebase via CURL and JSON-C</h1>
+            <hr class="style-eight">
             <p>By Eddie Marchioni, Jamie Epp, and Kieran McCormick</p>
 
             <h2 id="instructions-for-unix">Instructions for Unix
@@ -168,8 +182,8 @@
                     <code>Note</code> The above command should display the following:</p>
 
                 <p>
-                    <code>Protocols:        DICT FILE FTP FTPS GOPHER HTTP HTTPS IMAP IMAPS <br>
-      POP3 POP3S RTSP SMB SMBS SMTP SMTPS TELNET TFTP</code>
+                    <code>Protocols: DICT FILE FTP FTPS GOPHER HTTP HTTPS IMAP IMAPS
+                        <br> POP3 POP3S RTSP SMB SMBS SMTP SMTPS TELNET TFTP</code>
                 </p>
 
                 <p>As you can see,
@@ -182,7 +196,7 @@
                     <code>./configure</code>.</p>
 
                 <p>
-                    <code>Protocols:        DICT FILE FTP GOPHER HTTP IMAP POP3 RTSP SMTP TELNET TFTP</code>
+                    <code>Protocols: DICT FILE FTP GOPHER HTTP IMAP POP3 RTSP SMTP TELNET TFTP</code>
                 </p>
             </blockquote>
 
@@ -212,8 +226,8 @@
                 <code>arm-linux-gnueabihf</code> compiler. </p>
 
             <p>If we tried to incorporate
-                <code>libcurl</code> into our projects on our host machines our cross compiler would tell us it couldn’t find the following dependencies
-                for
+                <code>libcurl</code> into our projects on our host machines our cross compiler would tell us it couldn’t find the
+                following dependencies for
                 <code>libcurl</code>: </p>
 
             <ul>
@@ -404,7 +418,8 @@
                 <a href="https://curl.haxx.se/libcurl/c/getinmemory.html">HTTPS</a> tutorials.</p>
 
             <p>The first is important as it shows us how to send a GET via
-                <code>HTTPS</code>, the second shows how the write callback function to store the data from the response into a chunk of memory.</p>
+                <code>HTTPS</code>, the second shows how the write callback function to store the data from the response into a
+                chunk of memory.</p>
 
             <p>
                 <a href="https://curl.haxx.se/libcurl/c/https.html">https://curl.haxx.se/libcurl/c/https.html</a>
