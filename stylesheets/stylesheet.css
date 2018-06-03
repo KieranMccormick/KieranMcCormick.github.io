@@ -1,26 +1,16 @@
 @font-face {
     font-family: 'cornerstone';
-    src: url('./fonts/cornerstone.ttf');
-}
-
-@font-face {
-    font-family: 'butlerblack';
-    src: url('./fonts/butler_black-webfont.woff');
-}
-
-@font-face {
-    font-family: 'butlerbold';
-    src: url('./fonts/butler_bold-webfont.woff');
-}
-
-@font-face {
-    font-family: butlerbold;
-    src: url(./fonts/butler_bold-webfont.woff);
+    src: url('./fonts/cornerstone.ttf')
 }
 
 .cardlink:link {
     text-decoration: none;
     color: #FFFFFF;
+    z-index: 99 !important;
+}
+
+h1 {
+    font-size: 70px;
 }
 
 .social-buttons {
@@ -49,7 +39,7 @@ body {
     position: absolute;
     padding-top: 300%;
     padding-left: 350%;
-    margin-left: -20px!important;
+    margin-left: -20px !important;
     margin-top: -120%;
     opacity: 0;
     transition: all 1s
@@ -62,7 +52,9 @@ body {
     transition: 0s
 }
 
-code, samp, kbd {
+code,
+samp,
+kbd {
     font-family: "Courier New", Courier, monospace, sans-serif;
     text-align: left;
     color: #555;
@@ -149,8 +141,9 @@ hr.style-eight:after {
 }
 
 .img-wrapper {
-    justify-content: center;
-    align-content: center;
+    height: 100%;
+    justify-content: top;
+    align-content: top;
     display: grid;
     grid-template-columns: 33% 66%;
     grid-gap: 20px;
@@ -182,14 +175,17 @@ hr.style-eight:after {
     filter: brightness(70%);
 }
 
-.img-raised, .box {
+.img-raised,
+.box {
     box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
 .myimg {
-    align-self: center;
-    justify-self: center;
+    align-self: top;
+    justify-self: top;
     width: 100%;
+    height: auto;
+    vertical-align: middle
 }
 
 .test {
@@ -239,7 +235,8 @@ hr.style-eight:after {
     .social-buttons {
         grid-template-columns: auto auto auto auto;
     }
-    .leftcolumn, .rightcolumn {
+    .leftcolumn,
+    .rightcolumn {
         width: 100%;
         padding: 0;
     }
@@ -277,8 +274,97 @@ hr.style-eight:after {
         margin-left: 35px;
         margin-right: 35px;
     }
+    h1 {
+        font-size: 40px;
+    }
 }
 
-html, body {
+html,
+body {
     max-width: 100%;
+}
+
+.hvr-bounce-in {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+}
+
+.hvr-bounce-in:hover,
+.hvr-bounce-in:focus,
+.hvr-bounce-in:active {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+    -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+    transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+}
+
+@-webkit-keyframes hvr-ripple-out {
+    100% {
+        top: -12px;
+        right: -12px;
+        bottom: -12px;
+        left: -12px;
+        opacity: 0;
+    }
+}
+
+@keyframes hvr-ripple-out {
+    100% {
+        top: -12px;
+        right: -12px;
+        bottom: -12px;
+        left: -12px;
+        opacity: 0;
+    }
+}
+
+.hvr-ripple-out {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    position: relative;
+}
+
+.hvr-ripple-out:before {
+    content: '';
+    position: absolute;
+    /* background-color: #5cb85c; */
+    border-radius: 30px;
+    border: #5cb85c solid 6px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+}
+
+.hvr-ripple-out:hover:before,
+.hvr-ripple-out:focus:before,
+.hvr-ripple-out:active:before {
+    -webkit-animation-name: hvr-ripple-out;
+    animation-name: hvr-ripple-out;
+    border: #459d45 solid 6px;
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    background: whitesmoke;
+    -moz-border-radius: 70px;
+    -webkit-border-radius: 70px;
+    border-radius: 70px;
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
+    align-self: top;
+    justify-self: top;
+    width: 100%;
+    vertical-align: top
 }
