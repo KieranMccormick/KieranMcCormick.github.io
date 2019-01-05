@@ -17,7 +17,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="../js/materialize.min.js" type="text/javascript"></script>
+    <style>
+        h4 {
+            font-size: 20px;
+        }
 
+        ul {
+            padding-left: 15px;
+        }
+
+        ul li {
+            list-style-type: square;
+        }
+    </style>
 
 
 </head>
@@ -30,10 +42,83 @@
     </div>
     <div class="container">
         <div class="header">
-            <h1 style="font-family:cornerstone;" align="center">GoLang Fileserver</h1>
-                <hr class="style-eight">
+            <h1 style="font-family:cornerstone;" align="center">GoLang File Server</h1>
+            <hr class="style-eight">
+        </div>
+        <h4>GoLang File Server</h4>
+        <p>A GoLang server implements a multi-client / multi-threaded file system server with transactional semantics.</p>
+
+
+        <p>
+            <h4>My contributions were: </h4>
+        </p>
+
+        <ul style="padding-left: 15px;">
+            <li>Design and implement the functionality of reading and writing of files.</li>
+            <li>Implemented all code for transaction commands. The description of these commands is seen below under <a
+                    href="#inspr">The Inspiration and Problem</a> section.</li>
+
+            <li>Ensured that commands would handle omission, byzantine and failstop failures on the client and
+                failstop failures on the server.</li>
+        </ul>
+        <hr>
+
+        <h4 id="inspr">The Inspiration and Problem</h4>
+        <p>I wanted to learn how to use GoLang and wanted to build a multi-client / multi-threaded
+            file system server with
+            transactional semantics.
+            <br><br>
+            Since GoLang is an fantastic serverside language that essentially handles multi-threading by itself, I
+            really wanted to learn how to use it and leverage its amazing capabilities!
+            <br> <br>
+            <b>This server supports the following commands:</b>
+            <ul>
+                <li> READ - the client reads the file from the server. In that case, the transaction ID can be set to
+                    any number, as it will not be interpreted by the server: reads are not part of any transaction. The
+                    content-length field will contain the length of the file name. The data field will contain the file
+                    name itself. For this assignment you should assume that file names contain no spaces.
+                </li>
+
+                <li> NEW_TXN - the client asks the server to begin a new transaction
+                </li>
+
+                <li> WRITE - the client asks the server to write data as part of an existing transaction
+                </li>
+
+                <li> COMMIT - the client asks the server to commit the transaction. In this case, the message sequence
+                    number field includes the total number of writes that were sent by the client as part of this
+                    transaction.</li>
+
+                <li> ABORT - the client asks the server to abort the transaction
+                </li>
+
+                <li>ACK - the server acknowledges the committed transaction to the client or indicates a successful
+                    response to the client's NEW_TXN request.</li>
+
+                <li>ASK_RESEND - the server asks the client to resend a message for the given transaction whose
+                    sequence number is specified in the "message sequence number" field </li>
+
+                <li>ERROR - the server reports an error to the client. The error code and the ID of the transaction
+                    that
+                    generated the error must be included in the appropriate fields in the message</li>
+            </ul>
+        </p>
+        <hr>
+        <h4>The System and Technologies</h4>
+        <p>The application is built in GoLang</p>
+        <hr>
+
+        <h4>Challenges we ran into</h4>
+        <p>Ensuring that the server would handle omission, byzantine and failstop failures on the client and failstop
+            failures on the server.</p>
+        <hr>
+        <div>
+            <a href="https://github.com/KieranMcCormick/golang-server">
+                <img src="../assets/icons/GitHub-Mark-120px-plus.png" style="width: 30px; margin-bottom: 0;"> GitHub
+                Repo</a>
         </div>
     </div>
 
 </body>
+
 </html>

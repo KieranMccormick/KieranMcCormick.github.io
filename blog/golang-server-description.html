@@ -1,0 +1,555 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0077)http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/assignments/Ass4/index.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<link href="./golang-server-description_files/web07.css" rel="stylesheet" type="text/css">
+<link href="./golang-server-description_files/dropdownMenu.css" rel="stylesheet" type="text/css">
+<title>CS 431 Fall 2018 Home Page</title>
+</head>
+
+<body topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tbody><tr>
+   <td width="1%" align="left" class="bgred" valign="top">
+   <div align="center">
+      &nbsp;<br><br>
+      <table width="1%" border="0" cellspacing="0" cellpadding="15">
+
+      <tbody><tr><td>
+
+      </td></tr></tbody></table>
+
+      </div>
+
+
+      <font size="1">
+
+      <!-- *******  "Breadcrumb" links showing the position of the page in the overall context of the site can be placed here   ****-->
+
+      
+      <a href="http://www.cs.sfu.ca/"><img src="./golang-server-description_files/SFU_logo.jpg" width="150" alt=""><br>
+
+
+
+    <!-- ******** Editable Region for Hyperlinks *************************** -->
+    <!-- *********Replace http://www.yourlinkhere with a real web page address ************* -->
+    <!-- *********Replace Link with the text that will become a hyperlink to a real web page address *************** --> 
+ </a><p class="navbodyblack"><a href="http://www.cs.sfu.ca/">
+      </a><a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/index.html">
+      Home</a>
+
+      
+
+      </p><p class="navbodyblack">
+      <a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/includes/schedule.html">
+      Schedule</a>
+
+ </p><p class="navbodyblack">
+      <a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/includes/reader.html">
+      Reading List </a> 
+
+      </p><p class="navbodyblack">
+      <a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/includes/computing.html">
+      Computing</a> 
+
+      </p><p class="navbodyblack">
+      <a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/includes/grading.html">
+      Grading</a> 
+
+      </p><p class="navbodyblack">
+      <a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/includes/project.html">
+      Project</a> 
+
+      </p><p class="navbodyblack">
+      <a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/includes/presentation.html">
+      Presentation</a> 
+      </p>
+     
+  <!-- ************* End of Editable Region for Hyperlinks **************************** -->
+  
+  
+      </font></td>
+
+
+<td width="97%" valign="top"> 
+
+
+      <table summary="Navigation layout" border="0" width="100%" cellspacing="0" cellpadding="0">
+  
+<tbody><tr align="left"> 
+  <td width="100%" height="400" align="left" valign="top"> 
+    <p><a name="body"></a> 
+  <!-- ************Editable Region for Page Content- Enter
+              Content Here  ************************ -->
+
+</p><table border="0" width="100%">
+<tbody><tr>
+  <td>
+    <h1 align="left" valign="top">
+    <size -3="">CS 431 : Programming Parallel and Distributed Systems <size+1< h1=""><br>
+  </size+1<></size></h1></td>
+  </tr>
+  <tr>
+<td>
+   <p>
+    <b>
+    </b> 
+    <br>
+</p></td></tr>
+</tbody></table>
+
+
+
+<!-- Top of Page Body -->
+<h1> Assignment #4 - Distributed File system with Transactional Semantics </h1><p> (Thanks to Prof. Sasha Fedorova for providing this assignment) </p><p>
+      <b><font color="ff0000">Full assignment due by 11:59pm Mar 30th.</font></b>
+    </p><table width="900">
+  <tbody><tr>
+    
+    
+    
+</tr><tr><td>
+  <p><font size="2">Your goal is to implement a distributed file system with
+        transactional semantics. A transaction is a sequence of file operations
+        that follow the properties of (A)tomicity, (C)consistency, (I)solation
+        and (D)urability (ACID). That is, each sequence of file operations must
+        appear atomic, leave the file system consistent, work in face of concurrency
+        and survive server or client failures. </font></p>
+      <p><font size="2">The file system supports both reads and writes, but semantics of read are quite simple: files
+      are always read in their entirety. There are certain semantic rules that
+        govern correct write operations submitted the file server, which we describe below.
+        In addition, your system should implement the specified message format
+        for the wire protocol, so that we can test your system using our own client.
+        During the course of the assignment you will implement the file server
+        and a client that you will use to test your server. You will submit to
+        us the code for the file server; we will test it using our own client.
+        The assignment can be done in any programming language, as long as your
+        server is designed to accept messages over a TCP connection. </font></p>
+      <p><font size="2">Your system will be required to handle omission, byzantine
+        and failstop failures on the client and failstop failures on the server.
+        The server must be stateful: it must remember about the operations it
+        was doing before it crashed, as described by the rules below.</font></p>
+      <p><font size="2">We now describe the rules for the system. First we describe
+        how the client and server must interact and handle failures. Then we describe
+        the message format for the client-server protocol. </font></p>
+      <p><font size="2"><font size="4">Client-Server Interaction</font></font></p>
+      <p><font size="2">We describe several modes of interactions between the
+        client and the server, such interaction in the common-case (no failures)
+        and interaction in face of failures. </font></p>
+      <font size="2">
+      <p><b>Common case interaction (no failures, transaction is committed)</b>
+      </p>
+      </font> <ul>
+      <li><span class="cmpt401assign"><font size="2">Reads are quite simple.
+      The client sends the name of the file to the server, and the server returns the file in its
+      entirety. The rest of the section talks about writes. </font></span></li>
+      <li><span class="cmpt401assign"><font size="2">The
+      client requests a new transaction ID from the server, at the
+      same time specifying the file that will be written during that
+      transaction</font></span></li> <li><font size="2">The server
+      generates a unique transaction ID and returns it to the
+      client. If the file specified by the client in the message
+      requesting transaction ID does not exist, the server creates the
+      file.</font></li> <li><font size="2">All subsequent
+      client/server messages corresponding to a transaction will
+      contain the ID of that transaction</font></li> <li><font size="2">The client sends to the server a series of write
+      requests to the transaction's file. </font><font size="2">Each
+      request is numbered.</font></li> <li><font size="2">The client
+      asks the server to commit the transaction, that is to ensure
+      that all write requests are written to the file on the server's
+      disk.</font></li> <li><font size="2">The server appends all
+      writes sent by the client to the file, flushes the file data to
+      disk and sends an acknowledgement of the committed transaction
+      to the client.</font></li> <li><font size="2">The new file must
+      not be seen on the file system until the transaction
+      commits. That is a read request for a file that was created as part of an uncommitted transaction must
+      generate an error.</font></li>
+
+      <li><font size="2">The server must
+      acknowledge the client's message requesting a new
+      transaction. This acknowledgement message will have the
+      transaction ID.
+      Write requests can be acknowledged
+      selectively.  </font></li> </ul>
+      <p><font size="2"><i> We will test the correctness of common case interaction
+        by checking that after the transaction commits, the file written by the
+        client has the contents written during the transaction. We will also check
+        that the data written to the file as part of the transaction is not seen
+        in the file until the client has committed the transaction. We will also
+        check that if a new file is created as part of the transaction, the file
+        is not seen on the server's local file system until the transaction commits -- that is
+        we will check that your server correctly returns an error when the client requests
+        to read a file that is part of an uncommitted transaction.</i></font></p>
+      <p><font size="2"><b>Interaction in face of aborted transactions</b></font></p>
+      <ul>
+        <li><font size="2">A client may decide to abort the transaction after
+          sending a few write requests to the server</font></li>
+        <li><font size="2">In that case the client sends an "abort"
+          request to the server</font></li>
+        <li><font size="2">The server ensures that no data that the client had
+          sent as part of transaction is written to the file on the disk</font></li>
+        <li><font size="2">The server acknowledges the client's abort message</font></li>
+        <li><font size="2">If a new file was created as part of that transaction,
+          the server deletes the file</font></li>
+        <li><font size="2">If the aborted transaction was about to create a new file, that file must not be seen on the file system at any point, because the enclosing transaction aborted. That is a read request for a file that was created as part of an uncommitted transaction must
+      generate an error.</font></li>
+      </ul>
+      <p><i><font size="2">We will test the correctness of your system in face
+        of aborted transactions by making sure that the data from the aborted
+        client transaction is never to be seen in the file and the file that was
+        created as part of the transaction is not in the file system if the transaction
+        was aborted.</font></i></p>
+      <p><b><font size="2">Interaction in face of client omission failures</font></b></p>
+      <ul>
+        <li><font size="2">A client may lose some of the messages sent as part
+          of a transaction</font></li>
+        <li><font size="2">The server must not commit a transaction unless it
+          has received all write requests that were a part of this transaction</font></li>
+        <li><font size="2">Therefore, the transaction commit request sent by the
+          client includes the total number of messages that were sent by the client
+          as part of that transaction</font></li>
+        <li><font size="2">The server must keep track of all messages received
+          from the client as part of each transaction</font></li>
+        <li><font size="2">If the server realizes that it has not received all
+          of the messages that the client claims to have sent, it must ask the
+          client to retransmit the missing messages</font></li>
+        <li><font size="2">When asking for retransmission the server needs to
+          tell the client the sequence number of the missing message (the server
+          should be able to figure this out if it has kept track of message sequence
+          numbers it received from the client)</font></li>
+        <li><font size="2">If more than one message is missing, the server may
+          ask for a retransmission multiple times</font></li>
+        <li><font size="2">A client may lose the server's acknowledgement of the
+          committed transaction. In that case, it will retransmit the message
+          asking the server to commit the transaction. The server must remember
+          that the transaction has been committed and re-send the acknowledgement
+          to the client.</font></li>
+      </ul>
+      <p><i><font size="2">We will test the correctness of your system in face
+        of client omission failures by making the client deliberately omit messages
+        and making sure that a transaction with missing messages is never committed
+        to the file until the server asks for and receives all the missing messages.
+        </font></i></p>
+      <p><font size="2"><b>Interaction in face of client failstop failures</b></font></p>
+      <ul>
+        <li><font size="2">If a client crashes before commiting the transaction,
+          the transaction must never be committed</font></li>
+        <li><font size="2">The server decides how long to keep track of unfinished
+          transactions by setting a timeout</font></li>
+      </ul>
+      <p><font size="2"><i>We will test the correctness of your system by making
+        sure that the data from transactions that are not committed never appears
+        in the file. This failure is similar to the case when the client aborts
+        a transaction.</i></font></p>
+      <p><b><font size="2">Interaction in face of Byzantine failures on the client</font></b></p>
+      <ul>
+        <li><font size="2">Your server will be required to handle incorrect behavior
+          by the client; that is when the client sends messages that do not follow
+          the rules of the system</font></li>
+        <li><font size="2">For example, the client might send a message with a
+          transaction ID that it never received from the server; the server must
+          never commit a transaction with a fake ID.</font></li>
+       <font size="2">the
+          server must continue operating correctly if this happens. </font>
+        <li><font size="2">If the sever detects incorrect operation, it should
+          return error message to the client, describing the problem as specifically
+          as possible.</font></li>
+      </ul>
+      <p><i><font size="2">We will test the correctness of your server in face
+        of Byzantine client failures by generating messages with fake transaction
+        IDs on the client and making sure that those transactions are never committed.
+        We will also have the client generate incorrect messages and check that
+        the server responds to the client with an appropriate error code. </font></i></p>
+      <p><font size="2"><b>Interaction in face of concurrency</b></font></p>
+      <ul>
+        <li><font size="2">Multiple clients may be executing transactions against
+          the same file</font></li>
+        <li><font size="2">The server must ensure that those transactions are
+          isolated, that is, it must create the illusion that the clients' transactions
+          committed sequentially, even if the clients executed them concurrently</font></li>
+        <li><font size="2">If two clients commit their transactions on the same
+          file simultaneously, it is up to the server to decide whose data gets
+          committed to the file first. </font></li>
+      </ul>
+      <p><font size="2"><i>We will test the correctness of your server in face
+        of concurrency by having many concurrent clients executing transactions
+        against the same file and making sure that the messages written to the
+        file by concurrent transactions appear in the file as they would had the
+        transactions occurred sequentially.</i></font></p>
+      <p><i><font size="2">We will also enforce certain <b>concurrency requirements
+        on your server.</b> Your server must process requests from multiple clients
+        concurrently. We will test this by timing your server on a multiprocessor
+        system. We expect that N concurrent transactions executed by N clients
+        take measurably less time to complete than the same N transactions performed
+        sequentially.</font></i></p>
+      <p><font size="2"><b>Interaction in case of failstop server failures</b></font></p>
+      <ul>
+        <li><font size="2">If the server crashes <i><b>before</b></i> the client
+          has asked it to commit the transaction, it must be able to continue
+          processing the transaction after it reboots. The server must be able
+	  to continue from the point where it last sent an acknowledgement to the client.</font></li>
+        <li><font size="2">If the server crashes <i><b>after</b></i> committing
+          the transaction but before sending the acknowledgement of that fact
+          to the client, it must remember that transaction had been committed.
+          Once the server reboots it should be able to re-send the acknowledgement
+          to the client if the client retransmits the request to commit that transaction</font></li>
+        <li><font size="2">If the server crashes <b><i>while</i></b> the transaction
+          is being committed to the disk, it must ensure that the file is left
+          in the consistent state after it reboots; that is, upon reboot it must
+          ensure that no data from partially committed transactions is in the
+          file. If there is such data, the server must fix the file.</font></li>
+        <li><font size="2">The server must remember about all transactions committed
+          before the crash, in case a client retransmits a transaction commit
+          request after the server has crashed and rebooted.</font></li>
+        <li><font size="2">If the server has acknowledged a committed transaction
+          to the client, the transaction data must be in the file as soon as the
+          client receives the acknowledgement, no matter what happens with the
+          server. </font></li>
+      </ul>
+      <p><font size="2"><i>We will</i> <i>test the correctness of your system
+        in face of failstop server failures by killing your server while it is
+        running, then manually restarting it, and making sure that it continues correct operation and cleans
+        up the file system after the restart.  </i></font></p>
+      <p><font size="2"><b>Wire Protocol</b></font></p>
+      <p><font size="2">We will use a message format similar to HTTP (recall Lecture
+        V). The message format is as follows:</font></p>
+      <p><font size="2"><b><i>Request message format:</i></b></font></p>
+      <table width="100%" border="0" cellspacing="5" cellpadding="5">
+        <tbody><tr>
+          <td width="1%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Method</font></i></div>
+          </td>
+          <td width="1%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Transaction ID</font></i></div>
+          </td>
+          <td width="1%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Message sequence number</font></i></div>
+          </td>
+          <td width="1%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Content length</font></i></div>
+          </td>
+          <td width="1%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2"> Data</font></i></div>
+          </td>
+        </tr>
+        <tr>
+          <td width="13%" bgcolor="#FFFFFF">
+            <div align="center"><font size="2">WRITE</font></div>
+          </td>
+          <td width="16%">
+            <div align="center"><font size="2">67861</font></div>
+          </td>
+          <td width="31%">
+            <div align="center"><font size="2">2</font></div>
+          </td>
+          <td width="20%">
+            <div align="center"><font size="2"></font></div>
+          </td>
+        </tr>
+      </tbody></table>
+      <blockquote>
+
+        <p><font size="2"><b>Method field</b> contains the type of operation (all
+          methods are listed bellow)</font></p>
+        <p><font size="2"><b>Transaction ID field</b> specifies the ID of the
+          transaction to which this message relates. In the "NEW_TXN" message, transaction must be set to any id, such as "-1". The transaction ID in the "NEW_TXN" message must be ignored by the server</font></p>
+        <p><font size="2"><b>Message sequence number field</b> identifies the
+          number of the current file operation in the current transaction. Each transaction starts with message sequence number 0, so the "NEW_TXN" message will have sequence number 0. </font></p>
+        <p><font size="2"><b>Content length field</b> specifies the
+          length of data (in bytes) </font></p>
+        <p><font size="2"><b>Data field </b>contains the data to be written to
+          the file (if the method is WRITE) or the file name is the method is
+          (NEW_TXN)</font></p>
+      </blockquote>
+      <ul>
+<li>The first four fields of the message constitute a <b><i>message header</i></b></li>
+        <li><font size="2">The request header is followed by a single blank line (a "\r\n\r\n"
+          sequence) if the message contains the data field. The data follows that
+          blank line. </font></li>
+        <li><font size="2">The request header is followed by</font> <font size="2">two
+          blank lines (a "\r\n\r\n\r\n" sequence) if the message contains
+          no data field (as with COMMIT method)</font></li>
+      </ul>
+      <p><i><font size="2"><b>Response message format</b>:</font></i></p>
+      <table width="528%" border="0" cellspacing="5" cellpadding="5">
+        <tbody><tr>
+          <td width="11%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Method</font></i></div>
+          </td>
+          <td width="17%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Transaction ID</font></i></div>
+          </td>
+          <td width="27%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Message sequence number</font></i></div>
+          </td>
+          <td width="18%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Error code</font></i></div>
+          </td>
+          <td width="18%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Content length</font></i></div>
+          </td>
+          <td width="27%" bgcolor="#CCCCFF">
+            <div align="center"><i><font size="2">Reason </font></i></div>
+          </td>
+        </tr>
+        <tr>
+          <td width="11%" bgcolor="#FFFFFF">
+            <div align="center"><font size="2">ERROR</font></div>
+          </td>
+          <td width="17%">
+            <div align="center"><font size="2">67861</font></div>
+          </td>
+          <td width="27%">
+            <div align="center"><font size="2">2</font></div>
+          </td>
+          <td width="18%">&nbsp;</td>
+          <td width="27%">
+            <div align="center"><font size="2"></font></div>
+          </td>
+        </tr>
+      </tbody></table>
+      <blockquote>
+        <p><font size="2"><b>Method field</b> contains the type of operation (all
+          methods are listed bellow)</font></p>
+        <p><font size="2"><b>Transaction ID field</b> specifies the ID of the
+          transaction to which this message relates</font></p>
+        <p><font size="2"><b>Message sequence number field</b> in the context
+          of response message specifies the sequence number of the message that
+          must be retransmitted. This field only makes sense if the method is
+          ASK_RESEND.</font></p>
+        <p><font size="2"><b>Error code</b> <b>field</b> specifies the error code
+          if the method is ERROR (all mandatory error codes are listed below)</font></p>
+        <p><font size="2"><b>Content length field</b> specifies the
+          length of reason (in bytes) </font></p>
+        <p><font size="2"><b>Reason field</b> contains a human readable string
+          specifying the reason for error</font></p>
+      </blockquote>
+      <ul>
+<li>The first five fields of the message constitute a <b><i>message header</i></b></li>
+        <li><font size="2">A response header is followed by two blank lines (a
+          "\r\n\r\n\r\n" sequence) if the message does not include the
+          "reason" field.</font></li>
+        <li><font size="2">If the message includes the "reason" field,
+          the response header is followed by one blank line (a "\r\n\r\n"
+          sequence) </font></li>
+      </ul>
+<br>
+<b><i>Example messages</i></b>
+      <blockquote>
+      <b>An example write request message </b>(tags ==&gt;begin and ==&gt;end are not part of the message):<br>
+==&gt;begin<br>
+WRITE 35551 1 35<br>
+<br>
+Here is my data that goes into file<br>
+==&gt;end<br>
+
+<b>An example commit request message </b>(tags ==&gt;begin and ==&gt;end are not part of the message):<br>
+==&gt;begin<br>
+COMMIT 35551 8 0<br>
+<br>
+<br>
+==&gt;end<br>
+</blockquote>
+      <p><i><b><font size="2">Separation of header fields:</font></b></i></p>
+      <p>Fields in the message header must be separated by exactly one white space (ASCII character 32). No other characters may be used for field separation.
+      </p><p><i><b><font size="2">Methods:</font></b></i></p>
+      <blockquote>
+        <p><font size="2">READ - the client reads the file from the server.
+        In that case, the transaction ID can be set to any number, as it will not be
+        interpreted by the server: reads are not part of any transaction. The content-length field
+        will contain the length of the file name. The data field will contain the file name itself.
+        For this assignment you should assume that file names contain no spaces. </font></p>
+        <p><font size="2">NEW_TXN - the client asks the server to begin a new
+          transaction</font></p>
+        <p><font size="2">WRITE - the client asks the server to write data as
+          part of an existing transaction</font></p>
+        <p><font size="2">COMMIT - the client asks the server to commit the transaction.
+          In this case, the message sequence number field includes the total number
+          of writes that were sent by the client as part of this transaction.</font></p>
+        <p><font size="2">ABORT - the client asks the server to abort the transaction</font></p>
+        <p><font size="2">ACK - the server acknowledges the committed transaction
+          to the client or indicates a successful response to the
+	    client's NEW_TXN request.</font></p>
+        <p><font size="2">ASK_RESEND - the server asks the client to resend a
+          message for the given transaction whose sequence number is specified
+          in the "message sequence number" field</font></p>
+        <p><font size="2">ERROR - the server reports an error to the client. The
+          error code and the ID of the transaction that generated the error must
+          be included in the appropriate fields in the message</font></p>
+      </blockquote>
+      <p><font size="2"><b><i>Error codes:</i></b></font></p>
+      <p><font size="2">The following error codes are mandatory. You may implement
+        more error codes, if you wish to enhance the client experience.</font></p>
+      <blockquote>
+        <p><font size="2">201 - Invalid transaction ID. Sent by the server if
+          the client had sent a message that included an invalid transaction ID,
+          i.e., a transaction ID that the server does not remember</font></p>
+        <p><font size="2">202 - Invalid operation. Sent by the server if the client
+          attemtps to execute an invalid operation - i.e., write as part of a
+          transaction that had been committed</font></p>
+       
+        <p><font size="2">205 - File I/O error</font></p>
+        <p><font size="2">206 - File not found</font></p>
+      </blockquote>
+      <p><font size="2"><b>Implementation Rules and Tips</b></font></p>
+      <p><b><font size="2"><i>Starting your server </i></font></b><font size="2">Your
+        server must accept three command line arguments: </font></p>
+      <ul>
+        <li><font size="2">the IP address on which it will listen for client connections - we provide this in case the host where your server is running has multiple network interface cards and so it can listen on several different IP addresses.</font></li>
+        <li><font size="2">the port</font></li>
+        <li><font size="2">the directory where it will keep the files created
+          by the clients</font></li>
+      </ul>
+      <p><font size="2"><i><b>The file system</b> </i>Your server will store files
+        created and written by client transactions in the directory specified
+        on startup as a command line argument. When the server starts up, that
+        directory may already contain some files (we could put some files there
+        for testing). You must ensure that the files in that directory are not
+        deleted after the server exits. We will use the contents in those files
+        to check the correctness of your system. </font></p>
+      <p><font size="2">Since your server is statefull, it probably needs to keep
+        a log or records helping it to remember its state. Make sure that those
+        housekeeping logs are hidden from view on the server's file system (recall
+        how Unix implements hidden files). Those files must be deleted every time
+        the server exits gracefully. (If the server exits gracefully it is okay
+        for it to forget about any transactions executed in the past.)</font></p>
+      <p><font size="2"><b><i>Committing file data to stable storage </i></b>When
+        the client asks the server to commit a transaction, the server must ensure
+        that the transaction data is flushed to disk on the local file system.
+        Using the"write" system call (if you are programming in C) is
+        not enough to accomplish this. If you remember from your operating systems
+        course, the "write" system call puts the data into file system
+        buffer cache, but does not force it to disk. Therefore, you must explicitly
+        flush the data to disk when committing client transactions or when writing
+        important housekeeping messages that must survive crashes. To flush thedata
+        to disk, use the fsync (or fflush) system call. To tell you the truth, even fsync or fflush
+        will not guarantee that the data is forced to disk: many operating systems
+        return from fsync before the data is flushed to disk, while flushing the
+        data on the background. To <i>really</i> flush the data to disk, you must
+        call fsync (or fflush) twice. </font></p>
+      <p><font size="2">If you are programming in a language other than C or C++
+        you must find out the equivalent to the fsync system call.</font></p>
+      <p><font size="2"><b>Where to get help</b></font></p>
+      <p><font size="2">This <a href="https://stackoverflow.com/questions/39903732/java-tcp-client-server-connection">site</a> has an example of a TCP server
+	    written in java. Note, however, that you will need to read
+	    bytes, not UTF strings from the socket.
+       </font></p>
+      <p><font size="2">This <a href="http://cs.baylor.edu/~donahoo/practical/CSockets/textcode.html">website</a>
+        contains similar code examples in C.</font></p>
+      <span class="cmpt401assign"><font size="2">
+      <p>A great book to learn sockets programming in C is <a href="http://www.amazon.com/exec/obidos/ISBN=013490012X/wrichardstevensA/">Unix
+        Network Programming, Volume 1</a> (Stevens). This <a href="http://www.kohala.com/start/unpv12e.html">website</a>
+        contains all the source code from that book. Another good source of help
+        is the book <a href="http://www.amazon.com/Implementation-TCP-IP-Illustrated/dp/020183354X/ref=pd_bbs_sr_2/102-0020505-6475300?ie=UTF8&amp;s=books&amp;qid=1179982125&amp;sr=1-2">TCP/IP
+        Illustrated, Volume 2 </a>(Write and Stevens). </p>
+
+      <p><font size="2"><b>Test client</b></font></p>
+      You can use this java <a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/assignments/Ass4/TCPClient.class">test client</a> to test your
+	      server (<b> WE DON'T REQUIRE YOU TO DO THIS IN JAVA </b>). Here is the <a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/assignments/Ass4/TCPClient.java">source
+		code</a>. This program will generate valid A2 protocol messages and send them to your server based on the commands you supply. Run the test client as "java TCPClient [server] [port]". It will display a help message explaining how to use the program. <a href="http://www.cs.sfu.ca/~ashriram/Courses/2018/CS431/assignments/Ass4/slides"> Helper slides </a>
+      </font></span></td>
+  </tr>
+</tbody></table>
+
+
+</td></tr></tbody></table></td></tr></tbody></table></body></html>
