@@ -18,6 +18,53 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="../js/materialize.min.js" type="text/javascript"></script>
 
+    <style>
+        h4 {
+            font-size: 20px;
+        }
+
+        ul {
+            padding-left: 15px;
+        }
+
+        ul li {
+            list-style-type: square;
+        }
+
+        .beagleimg {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        .img-wrapper {
+            grid-template-columns: 30% 65%;
+        }
+
+        @media only screen and (max-width: 841px) {
+            .img-wrapper {
+                display: grid;
+            }
+
+            .myimg {
+                width: 100%;
+            }
+        }
+
+        @media only screen and (max-width: 840px) {
+            .img-wrapper {
+                display: block;
+            }
+
+            .myimg {
+                width: 90%;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
 
 
 </head>
@@ -30,10 +77,255 @@
     </div>
     <div class="container">
         <div class="header">
-            <h1 style="font-family:cornerstone;" align="center">CV Dump</h1>
-                <hr class="style-eight">
+            <h1 style="font-family:cornerstone;" align="center">CV DUMP</h1>
+            <hr class="style-eight">
+        </div>
+        <h4>CV Dump</h4>
+        <div class="img-wrapper" style="grid-template-columns: 65% 30%;">
+            <p>
+                    CV Dump allows users to stylize, build, track, and share resumes like never before! 
+
+                    The innovative Blocks System makes it easy to build a professional resume that is sure to stand out. Blocks are styled sections of information that users create and combine to build outstanding resumes. 
+                    
+                    CV Dump’s Resume Sharing allows you and your colleagues to comment and improve eachothers resumes. Ensuring that you put your best foot forward!
+                    
+                    Job Application Tracking ensures you never miss out on your next big opportunity.
+            </p>
+            <img class="myimg" style="width:200px; display:block; margin-left: auto;
+                    margin-right: auto;"
+                src="../assets/icons/CVDumpLOGO.png">
+
+        </div>
+        <hr>
+
+
+        <p>
+            <h4>My contributions were: </h4>
+        </p>
+
+        <ul style="padding-left: 15px;">
+            <li>
+                Designed and implemented ​the​ ​model​ ​and​ ​APIs​ ​on​ ​the​ ​back​​end​ ​to​ ​handle​ ​POST and​
+                ​GET​ ​requests​ ​from​ ​the​ ​client​ ​to​ ​load,​ ​create​ ​and​ ​save​ ​blocks.​
+            </li>
+            <ul style="padding-left: 15px;">
+                <li>
+                    Designed​ ​and​ ​implemented​ ​the​ ​table​ ​for blocks​ ​in​ ​the​ ​Database.​
+                </li>
+                <li>
+                    Designed and implemented​ ​the reducers,​ ​React​ ​view,​ ​and​ ​styling​ ​on​ ​the​ ​front​ ​end​
+                    ​using​ ​React/Redux​ ​and​ ​Sass.
+                </li>
+                <li>
+                    Integrated​ ​the​ ​WYSIWYG​ ​editor​ ​into​ ​the​ ​blocks​ ​page.​
+                </li>
+                <li>
+                    Implemented ​feature​ so a user ​could directly​ ​access​ ​and​ ​edit​ ​a​ ​blocks​ ​markdown.
+                </li>
+            </ul>
+            <li>
+                Frequently​ ​worked​ ​with​ ​other​ ​group​ ​members​ ​to​ ​help them​ ​develop​ ​and​
+                ​debug​ ​their​ ​code.​
+            </li>
+            <li>
+                Contributed to backend and APIs for the notifications feature.
+            </li>
+            <li>
+                Used <code>Sass</code> to implement styling on the​ ​dashboard​.​
+            </li>
+        </ul>
+        <hr>
+
+
+        <h4 id="inspr">The Inspiration and Problem</h4>
+        <p>I wanted to learn more developing as a full-stack engineer in an agile environment. This project let me rapidly grow and learn alot about development. 
+        </p>
+        <hr>
+
+        <h4>The Solution</h4>
+        <p>
+            CV dumps feature list includes:
+        </p>
+        <ul style="padding-left: 15px;">
+            <li>
+                Users
+            </li>
+            <li>
+                Shareable resumes
+            </li>
+            <li>
+                Receive feedback
+            </li>
+            <li>
+                Track job applications
+            </li>
+            <li>
+                Resume revision history
+            </li>
+            <li>
+                Sign in with Linkedin or CAS
+            </li>
+        </ul>
+        <hr>
+
+        <div class="img-wrapper" style="display: block;">
+            <h4>
+                Sign in with Linkedin or CAS
+            </h4>
+            <img class="myimg" style="width:90%; display:block; max-width: 500px; margin-left: auto;
+                        margin-right: auto;"
+                src="../assets/blog-images/CVDump/Login-Page.png">
+
+        </div>
+        <hr>
+
+        <div class="img-wrapper" style="display: block;">
+            <h4>
+                Users can easily create Blocks containing summaries or headers by using markdown or a featureful
+                editor.
+
+
+            </h4>
+            <img class="myimg" style="width:90%; display:block; max-width: 500px; margin-left: auto;
+                        margin-right: auto;"
+                src="../assets/blog-images/CVDump/create-Blocks.png">
+
+        </div>
+        <hr>
+
+        <div class="img-wrapper" style="display: block;">
+            <h4>
+                Tailor your resume through Blocks without rewriting anything.
+
+            </h4>
+            <img class="myimg" style="width:90%; display:block; max-width: 500px; margin-left: auto;
+                    margin-right: auto;"
+                src="../assets/blog-images/CVDump/tailor-blocks.png">
+
+        </div>
+        <hr>
+
+        <div class="img-wrapper" style="display: block;">
+            <h4>
+                Share your resume with friends and companies and get feedback.
+            </h4>
+            <img class="myimg" style="width:90%; display:block; max-width: 500px; margin-left: auto;
+            margin-right: auto;"
+                src="../assets/blog-images/CVDump/share.png">
+
+        </div>
+        <hr>
+
+        <div class="img-wrapper" style="display: block;">
+            <h4>
+                Instant feedback is available via the notification and comment system.
+            </h4>
+            <img class="myimg" style="width:50%; display: block; max-width: 400px; margin-left: auto; margin-right: auto;"
+                src="../assets/blog-images/CVDump/comments.png">
+
+        </div>
+        <hr>
+        <hr>
+
+
+
+
+        <h4>The System and Technologies</h4>
+        <p>
+            The Game is build with:
+            <ul style="padding-left: 15px;">
+                <li>
+                    <code>React</code> and <code>Redux</code>
+                </li>
+                <li>
+                    <code>NodeJS</code> and <code>ExpressJS</code>
+                </li>
+                <li>
+                    <code>MySQL</code>
+                </li>
+                <li>
+                    <code>Nginx</code>
+                </li>
+                <li>
+                    <code>SocketIO</code>
+                </li>
+                <li>
+                    <code>Chef</code> and <code>Vagrant</code>
+                </li>
+            </ul>
+        </p>
+        <hr>
+
+        <h4>Future​ ​Features</h4>
+        <p>
+            In​ ​the​ ​future,​ ​the​ ​following​ ​features​ ​could​ ​be​ ​added:
+            <ul style="padding-left: 15px;">
+                <li>
+                    Delete​ ​documents​ ​and​ ​blocks.
+                </li>
+                <li>
+                    Organizing​ ​documents​ ​and​ ​blocks.
+                </li>
+                <li>
+                    Uploading​ ​resumes​ ​and​ ​transforming​ ​their​ ​contents​ ​into​ ​blocks.
+                </li>
+                <li>
+                    Create​ ​new​ ​resume​ ​wizard
+                </li>
+                <ul style="padding-left: 15px;">
+                    <li>
+                        A​ ​wizard​ ​that​ ​takes​ ​you​ ​through​ ​the​ ​steps​ ​of​ ​creating​ ​a​ ​new​ ​resume,​
+                        ​asks
+                        you​ ​to​ ​answer​ ​questions​ ​about​ ​skills,​ ​education​ ​and​ ​accomplishments then​ ​pre​
+                        ​builds​
+                        ​blocks​ ​and​ ​a​ ​resume​ ​for​ ​you.​ ​You​ ​can​ ​then​ ​edit​ ​it​ ​to​ ​your liking.
+                    </li>
+                </ul>
+                <li>
+                    Style​ ​templates
+                </li>
+                <ul style="padding-left: 15px;">
+                    <li>
+                        A​ ​selection​ ​style​ ​templates​ ​for​ ​the​ ​save​ ​to​ ​PDF​ ​feature.
+                    </li>
+                </ul>
+                <li>
+                    Overall​ ​better​ ​site​ ​UI
+                </li>
+                <li>
+                    Template​ ​blocks
+                </li>
+                <ul style="padding-left: 15px;">
+                    <li>
+                        locks​ ​that​ ​are​ ​already​ ​partially​ ​filled​ ​out,​ ​i.e.​ ​a​ ​block​ ​for​ ​skills​
+                        ​that​
+                        ​comes
+                        pre​ ​filled​ ​out​ ​with​ ​pre​ ​styled​ ​stubs​ ​that​ ​you​ ​just​ ​need​ ​to​ ​change​
+                        ​and​ ​fill​
+                        ​in.
+                    </li>
+                </ul>
+                <li>
+                    Better​ ​LinkedIn​ ​integration.
+                </li>
+                <ul style="padding-left: 15px;">
+                    <li>
+                        Use​ ​information​ ​from​ ​users​ ​LinkedIn​ ​to​ ​auto​ ​generate​ ​blocks​ ​for​ ​the​ ​user.
+                    </li>
+                </ul>
+            </ul>
+        </p>
+        <hr>
+
+        <div>
+            <a href="https://github.com/KieranMcCormick/CVDump">
+                <img src="../assets/icons/GitHub-Mark-120px-plus.png" style="width: 30px; margin-bottom: 0;">
+                GitHub Game Code
+                Repo</a>
         </div>
     </div>
 
+
 </body>
+
 </html>
