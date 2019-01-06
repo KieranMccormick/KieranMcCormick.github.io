@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/stylesheet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
@@ -31,7 +31,7 @@
     <div class="container">
         <div class="header">
             <h1 style="font-family:cornerstone;" align="center">Monitoring Android HTTP(S) traffic</h1>
-                <hr class="style-eight">
+            <hr class="style-eight">
         </div>
 
         <p>This tutorial will cover how to:</p>
@@ -48,9 +48,11 @@
             </big>
         </p>
         <p>The setup of the PPTP server is covered
-            <a href="https://help.ubuntu.com/community/PPTPServer" target="_blank">here</a> in the Ubuntu community. I have, however, included these instructions below with some additional notes
+            <a href="https://help.ubuntu.com/community/PPTPServer" target="_blank">here</a> in the Ubuntu community. I
+            have, however, included these instructions below with some additional notes
             that helped me.</p>
-        <button id="pptpToggleTop" onclick="changeToggleText(this)" type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Show PPTP server instructions</button>
+        <button id="pptpToggleTop" onclick="changeToggleText(this)" type="button" class="btn btn-info" data-toggle="collapse"
+            data-target="#demo">Show PPTP server instructions</button>
         <div id="demo" class="collapse">
             <br>
             <p>
@@ -68,8 +70,10 @@
             <pre><code>sudo cat /etc/pptpd.conf</code></pre>
             <p>The end of the configuration file should now look something like this:</p>
             <pre><code># (Recommended)<br>#localip 192.168.0.1<br>#remoteip 192.168.0.234-238,192.168.0.245<br># or<br>#localip 192.168.0.234-238,92.168.0.245<br>#remoteip 192.168.1.234-238,192.168.1.245<br>localip 192.168.0.1<br>remoteip 192.168.0.100-200</code></pre>
-            <p>This has set up the PPTP server to use IP 192.168.0.1 while distributing the IP range 192.168.0.100 to 192.168.0.200
-                to PPTP clients. Change these as you wish as long as they are private IP addresses and do not conflict with
+            <p>This has set up the PPTP server to use IP 192.168.0.1 while distributing the IP range 192.168.0.100 to
+                192.168.0.200
+                to PPTP clients. Change these as you wish as long as they are private IP addresses and do not conflict
+                with
                 IP addresses already used by your server.</p>
             <p>Next, configure which DNS servers to use when clients connect to this PPTP server</p>
             <pre><code>sudo nano /etc/ppp/pptpd-options</code></pre>
@@ -81,7 +85,8 @@
             <pre><code>sudo cat /etc/ppp/chap-secrets</code></pre>
             <p>The end of the file should now look something like this:</p>
             <pre><code># Secrets for authentication using CHAP<br># client	server	secret			IP addresses<br>username * password *</code></pre>
-            <p>The first column is username, the second is server name, the third is password, and the last is the allowed IP
+            <p>The first column is username, the second is server name, the third is password, and the last is the
+                allowed IP
                 addresses (we will put * to allow all).</p>
             <br>
             <p>
@@ -105,8 +110,8 @@
             <p>or</p>
             <pre><code>/etc/init.d/pptpd restart</code></pre>
             <br>
-            <button id="pptpToggleBottom" onclick="changeToggleText(this)" type="button" class="btn btn-info" data-toggle="collapse"
-                data-target="#demo">Hide PPTP server instructions</button>
+            <button id="pptpToggleBottom" onclick="changeToggleText(this)" type="button" class="btn btn-info"
+                data-toggle="collapse" data-target="#demo">Hide PPTP server instructions</button>
         </div>
         <hr class="style-one">
         <p>
@@ -138,12 +143,35 @@
                 <b>Setup and forward VPN traffic to mitmproxy</b>
             </big>
         </p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <pre><code># sudo apt-get install pptpd</code></pre>
+        <p>
+            <ol>
+                <li>
+                    Install mitmproxy (use pip & setuptools)
+                </li>
+                <li>
+                    mitmproxy -T --host --cert=x.pem
+                </li>
+                <li>
+                    Run iptables to reroute ppp0 to mitmproxy
+                </li>
+                <li>
+                    Connect device to vpn server
+                </li>
+            </ol>
+            For SSL:
+            Use cert in this dir
+            Install to android device via Menu>Settings>Security>Install
+            Will need to configure mdm to install this for knox usagels
+            <br><br>
+            Now run the iptables commands attached (with your own network interfaces) to run all the vpn traffic to
+            mitmproxy.
+        </p>
+        <pre><code># sudo iptables -t nat -A PREROUTING -i ppp0 -p tcp --dport 80 -j REDIRECT --to-port 8080</code></pre>
+        <pre><code># sudo iptables -t nat -A PREROUTING -i ppp0 -p tcp --dport 443 -j REDIRECT --to-port 8080</code></pre>
         <hr class="style-one">
         <p>Click
-            <a href="https://github.com/KieranMcCormick/KieranMcCormick.github.io" target="_blank">here</a> to view this pages source.</p>
+            <a href="https://github.com/KieranMcCormick/KieranMcCormick.github.io" target="_blank">here</a> to view
+            this pages source.</p>
     </div>
 
 </body>
